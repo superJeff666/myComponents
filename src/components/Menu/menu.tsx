@@ -21,7 +21,7 @@ const Menu: React.FC<MenuProps> = (props) => {
   const [currentActive, setActive] = useState(defaultIndex);
 
   const classes = classNames("viking-menu", className, {
-    "menu-vertical": mode === "horizontal",
+    "menu-vertical": mode === "vertical",
   });
   const handleClick = (index: number) => {
     setActive(index);
@@ -34,7 +34,7 @@ const Menu: React.FC<MenuProps> = (props) => {
     onSelect: handleClick,
   };
   return (
-    <ul className={classes} style={style}>
+    <ul className={classes} style={style} data-testid="test-menu">
       <MenuContext.Provider value={passedContext}>
         {children}
       </MenuContext.Provider>
