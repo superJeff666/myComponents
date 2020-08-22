@@ -11,7 +11,7 @@ function App() {
   return (
     <div className="App" style={{ marginTop: "10px" }}>
       <header className="App-header">
-       <Icon icon='arrow-down' theme='danger' size='10x'/>
+       <Icon icon='arrow-down' theme='primary' size='10x'/>
         <Menu
           defaultIndex="0"
           onSelect={(index) => {
