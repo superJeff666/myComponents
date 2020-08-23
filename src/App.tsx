@@ -1,13 +1,15 @@
-import React from "react";
+import React, {useState} from "react";
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
-import Button, { ButtonType, ButtonSize } from "./components/Button/button";
+import Button from "./components/Button/button";
 import Menu from "./components/Menu/menu";
 import MenuItem from "./components/Menu/menuItem";
 import SubMenu from "./components/Menu/subMenu";
 import Icon from './components/Icon/icon';
+import Transition from './components/Transition/transition';
 library.add(fas)
 function App() {
+  const [show, setShow] = useState(false);
   return (
     <div className="App" style={{ marginTop: "10px" }}>
       <header className="App-header">
@@ -28,21 +30,34 @@ function App() {
           </SubMenu>
           <MenuItem>cool link3</MenuItem>
         </Menu>
-        <Button disabled>hello button</Button>
+        <Button size='lg' onClick={() => {setShow(!show)} }>Toggle</Button>
+        <Transition 
+          in={show}
+          timeout={300}
+          animation='zoom-in-left'
+        >
+          <div>
+            <p>hello</p>
+            <p>hello1</p>
+            <p>hello2</p>
+            <p>hello3</p>
+            <p>hello4</p>
+          </div>
+         </Transition> 
         <Button
           onClick={(e) => alert(e.target)}
-          btnType={ButtonType.Primary}
-          size={ButtonSize.Large}
+          btnType='primary'
+          size= 'lg'
         >
           Large Primary
         </Button>
-        <Button btnType={ButtonType.Danger} size={ButtonSize.Small}>
+        <Button btnType='danger' size='sm'>
           Small Danger
         </Button>
-        <Button btnType={ButtonType.Link} href="http://www.baidu.com">
+        <Button btnType= 'link' href="http://www.baidu.com">
           Link
         </Button>
-        <Button btnType={ButtonType.Link} disabled href="http://www.baidu.com">
+        <Button btnType= 'link' disabled href="http://www.baidu.com">
           Disabled Link
         </Button>
       </header>
