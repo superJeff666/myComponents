@@ -7,6 +7,7 @@ import MenuItem from "./components/Menu/menuItem";
 import SubMenu from "./components/Menu/subMenu";
 import Icon from './components/Icon/icon';
 import Transition from './components/Transition/transition';
+import Input from './components/Input/input';
 library.add(fas)
 function App() {
   const [show, setShow] = useState(false);
@@ -60,6 +61,9 @@ function App() {
         <Button btnType= 'link' disabled href="http://www.baidu.com">
           Disabled Link
         </Button>
+        <Input style={{width:'300px'}} placeholder='test'/>
+        <Input style={{width:'300px'}} placeholder='test' disabled/>
+        <Input style={{width:'300px'}} placeholder='test' icon="search"/>
       </header>
     </div>
   );
