@@ -61,9 +61,10 @@ function App() {
         <Button btnType= 'link' disabled href="http://www.baidu.com">
           Disabled Link
         </Button>
-        <Input style={{width:'300px'}} placeholder='test'/>
+        <Input style={{width:'300px'}} placeholder='test' size='lg' prepend='https://'/>
         <Input style={{width:'300px'}} placeholder='test' disabled/>
         <Input style={{width:'300px'}} placeholder='test' icon="search"/>
+        <Input style={{width:'300px'}} placeholder='test' append='.com' onChange={()=> alert(1)}/>
       </header>
     </div>
   );
