@@ -45,7 +45,7 @@ const simpleComplete = () => {
     const itemWithGithub = item as DataSourceType<GithubUserProps>;
     return (
       <>
-        <h2>Name: {itemWithGithub.login}</h2>
+        <h2>Name: {itemWithGithub.value}</h2>
         <p>url: {itemWithGithub.url}</p>
       </>
     );
