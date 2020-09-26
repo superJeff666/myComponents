@@ -38,6 +38,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
   const [inputValue, setInputValue] = useState(value);
   const [loading, setLoading] = useState(false);
   const [highlightIndex, setHighlightIndex] = useState(-1);
+  // 处理防抖
   const debouncedValue = useDebounce(inputValue, 500);
   useEffect(() => {
     if (debouncedValue) {
@@ -64,6 +65,12 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
     }
     setHighlightIndex(index);
   };
+
+  /**
+   * 键盘事件
+   * 回车，上下，退出
+   * @param e 
+   */
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     switch (e.keyCode) {
       case 13:
@@ -101,6 +108,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
     return renderOption ? renderOption(item) : item.value;
   };
 
+  // 处理下拉选项
   const generateDropDown = () => {
     return (
       <ul>
