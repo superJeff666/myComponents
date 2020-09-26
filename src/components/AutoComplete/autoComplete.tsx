@@ -52,10 +52,10 @@ export const AutoComplete:FC<AutoCompleteProps> = (props) => {
                 return (
                     <li key={index} onClick ={()=> {handleSelect(item)}}>
                         {renderTemplate(item)}
-                    </li>    
+                    </li>
                 )
             })}
-        </ul>    
+        </ul>
     )
   }
   return (
