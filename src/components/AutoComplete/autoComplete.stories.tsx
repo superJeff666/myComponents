@@ -7,6 +7,11 @@ interface LakerPlayerProps {
     value: string;
     number: number
 }
+interface GithubUserProps {
+    login: string,
+    url: string,
+    avatar_url: string
+}
 const simpleComplete = () => {
     const lakers = ['bradler','pope','caruso','cook','cousins','james','AD','green','howard','kuzma','McGee','rando'];
     const lakersWithNumber = [
@@ -20,25 +25,33 @@ const simpleComplete = () => {
         {value: 'howard',number: 14},
         {value: 'kuzma',number: 39},
     ]
+    // const handleFetch = (query:string) => {
+    //     return lakers.filter(name => name.includes(query)).map(name=> ({value: name}));
+    // }
     const handleFetch = (query:string) => {
-        return lakers.filter(name => name.includes(query)).map(name=> ({value: name}));
+        return fetch(`https://api.github.com/search/users?q=${query}`)
+            .then(res=>res.json())
+            .then(({items})=> {
+              console.log(items);
+              return items.slice(0,10).map((item:any) => ({value:item.login,...item}))
+            })
     }
     // const handleFetch  = (query: string) => {
     //     return lakersWithNumber.filter(player => player.value.includes(query))
     // }
-    // const renderOption = (item:DataSourceType<LakerPlayerProps>) => {
-    //     return (
-    //     <>
-    //     <h2>Name: {item.value}</h2>
-    //     <p>Number: {item.number}</p>
-    //     </>
-    //     )
-    // }
+    const renderOption = (item:DataSourceType<GithubUserProps>) => {
+        return (
+        <>
+        <h2>Name: {item.login}</h2>
+        <p>url: {item.url}</p>
+        </>
+        )
+    }
     return (
        <AutoComplete
         fetchSuggestions={handleFetch}
         onSelect={action('selected')}
-        // renderOption={renderOption}
+        renderOption={renderOption}
        />
     )
 }

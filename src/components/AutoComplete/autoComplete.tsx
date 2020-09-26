@@ -1,13 +1,15 @@
 import React, {FC,useState,ChangeEvent,ReactElement} from 'react';
 import Input,{InputProps} from '../Input/input';
-
-
+import Icon from '../Icon/icon';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+library.add(fas)
 interface DataSourceObject {
     value: string;
 }
 export type DataSourceType<T={}> = T & DataSourceObject;
 export interface AutoCompleteProps extends Omit<InputProps,'onSelect'> {
-    fetchSuggestions: (str:string) => DataSourceType[];
+    fetchSuggestions: (str:string) => DataSourceType[] | Promise<DataSourceType[]>;
     onSelect?: (item:DataSourceType) => void;
     renderOption?: (item:DataSourceType) => ReactElement;
 }
@@ -26,13 +28,23 @@ export const AutoComplete:FC<AutoCompleteProps> = (props) => {
       setInputValue(value);
       if(value) {
           const result = fetchSuggestions(value);
-          setSuggestions(result)
+          if(result instanceof Promise) {
+              console.log('triggered');
+              setLoading(true);
+              result.then(data => {
+                  setLoading(false);
+                  setSuggestions(data);
+              })
+          } else {
+            setSuggestions(result)
+          }
       } else {
           setSuggestions([])
       }
   }
   const [suggestions,setSuggestions] = useState<DataSourceType[]>([])
   const [inputValue, setInputValue] = useState(value);
+  const [loading, setLoading] = useState(false);
   const handleSelect = (item:DataSourceType) => {
       setInputValue(item.value);
       setSuggestions([]);
@@ -65,6 +77,7 @@ export const AutoComplete:FC<AutoCompleteProps> = (props) => {
             value={inputValue}
             {...restProps}
           />
+          {loading && <ul><Icon icon='spinner' spin/></ul>}
           {(suggestions.length > 0) && generateDropDown()}
       </div>
   )
