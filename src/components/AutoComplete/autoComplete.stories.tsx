@@ -39,11 +39,12 @@ const simpleComplete = () => {
     // const handleFetch  = (query: string) => {
     //     return lakersWithNumber.filter(player => player.value.includes(query))
     // }
-    const renderOption = (item:DataSourceType<GithubUserProps>) => {
+    const renderOption = (item:DataSourceType) => {
+        const itemWithGithub = item as DataSourceType<GithubUserProps>
         return (
         <>
-        <h2>Name: {item.login}</h2>
-        <p>url: {item.url}</p>
+        <h2>Name: {itemWithGithub.login}</h2>
+        <p>url: {itemWithGithub.url}</p>
         </>
         )
     }
