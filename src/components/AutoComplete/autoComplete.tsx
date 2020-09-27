@@ -2,6 +2,7 @@ import React, {
   FC,
   useState,
   useEffect,
+  useRef,
   ChangeEvent,
   KeyboardEvent,
   ReactElement,
@@ -12,6 +13,7 @@ import { fas } from "@fortawesome/free-solid-svg-icons";
 import Input, { InputProps } from "../Input/input";
 import Icon from "../Icon/icon";
 import useDebounce from "../../hooks/useDebounce";
+import useClickOutSide from "../../hooks/useClickOutSide";
 library.add(fas);
 interface DataSourceObject {
   value: string;
@@ -38,10 +40,15 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
   const [inputValue, setInputValue] = useState(value);
   const [loading, setLoading] = useState(false);
   const [highlightIndex, setHighlightIndex] = useState(-1);
+  const triggerSearch = useRef(false);
+  const componentRef = useRef<HTMLDivElement>(null);
+  useClickOutSide(componentRef, () => {
+    setSuggestions([]);
+  });
   // 处理防抖
   const debouncedValue = useDebounce(inputValue, 500);
   useEffect(() => {
-    if (debouncedValue) {
+    if (debouncedValue && triggerSearch.current) {
       const result = fetchSuggestions(debouncedValue);
       if (result instanceof Promise) {
         console.log("triggered");
@@ -69,7 +76,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
   /**
    * 键盘事件
    * 回车，上下，退出
-   * @param e 
+   * @param e
    */
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     switch (e.keyCode) {
@@ -95,6 +102,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.trim();
     setInputValue(value);
+    triggerSearch.current = true;
   };
   const handleSelect = (item: DataSourceType) => {
     setInputValue(item.value);
@@ -102,6 +110,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
     if (onSelect) {
       onSelect(item);
     }
+    triggerSearch.current = false;
   };
 
   const renderTemplate = (item: DataSourceType) => {
@@ -132,7 +141,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
     );
   };
   return (
-    <div className="viking-auto-complete">
+    <div className="viking-auto-complete" ref={componentRef}>
       <Input
         onChange={handleChange}
         onKeyDown={handleKeyDown}
