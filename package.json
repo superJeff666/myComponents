@@ -16,6 +16,7 @@
     "@types/react-dom": "16.9.4",
     "@types/react-transition-group": "^4.2.3",
     "@types/storybook__addon-info": "^5.2.1",
+    "axios": "^0.21.0",
     "classnames": "^2.2.6",
     "cross-env": "^7.0.0",
     "husky": "^4.2.1",
@@ -32,7 +33,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "storybook": "start-storybook -p 6006 -s public",
+    "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
     "build-storybook-docs": "build-storybook --docs"
   },

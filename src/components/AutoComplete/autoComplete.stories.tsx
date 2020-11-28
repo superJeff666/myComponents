@@ -14,17 +14,17 @@ interface GithubUserProps {
 }
 const simpleComplete = () => {
   // const lakers = ['bradler','pope','caruso','cook','cousins','james','AD','green','howard','kuzma','McGee','rando'];
-  const lakersWithNumber = [
-    { value: "bradler", number: 11 },
-    { value: "pope", number: 1 },
-    { value: "caruso", number: 4 },
-    { value: "cook", number: 2 },
-    { value: "james", number: 15 },
-    { value: "AD", number: 23 },
-    { value: "green", number: 3 },
-    { value: "howard", number: 14 },
-    { value: "kuzma", number: 39 },
-  ];
+  // const lakersWithNumber = [
+  //   { value: "bradler", number: 11 },
+  //   { value: "pope", number: 1 },
+  //   { value: "caruso", number: 4 },
+  //   { value: "cook", number: 2 },
+  //   { value: "james", number: 15 },
+  //   { value: "AD", number: 23 },
+  //   { value: "green", number: 3 },
+  //   { value: "howard", number: 14 },
+  //   { value: "kuzma", number: 39 },
+  // ];
   // const handleFetch = (query:string) => {
   //     return lakers.filter(name => name.includes(query)).map(name=> ({value: name}));
   // }
