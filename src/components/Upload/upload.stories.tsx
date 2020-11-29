@@ -1,7 +1,7 @@
 import react from 'react';
 import {storiesOf} from '@storybook/react';
 import {action} from '@storybook/addon-actions';
-import {Upload} from './upload';
+import {Upload, UploadFile} from './upload';
 import React from 'react';
 
 // const checkFileSize = (file:File) => {
@@ -17,11 +17,19 @@ import React from 'react';
 //     return Promise.resolve(newFile)
 // }
 
+const defaultFileList:UploadFile[] =  [
+    {uid:'123',size:1234, name:'hello.md',status:'uploading',percent:30},
+    {uid:'122',size:1234, name:'xyz.md',status:'success',percent:30},
+    {uid:'121',size:1234, name:'test.md',status:'error',percent:30}
+]
+
 const simpleUpload = () => {
     return (
         <Upload
          action="https://jsonplaceholder.typicode.com/posts/"
          onChange={action('changed')}
+         defaultFileList={defaultFileList}
+         onRemove={action('removed')}
         />
     )
 }
