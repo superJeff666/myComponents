@@ -140,7 +140,6 @@ export const Upload: FC<UploadProps> = (props) => {
         }
       });
   };
-  console.log(fileList);
   return (
     <div className="viking-upload-component">
       <Button btnType="primary" onClick={handleClick}>
