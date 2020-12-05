@@ -1,7 +1,8 @@
-import React, { FC, useRef, ChangeEvent, useState } from "react";
+import React, { FC, useRef, ChangeEvent, useState, Children } from "react";
 import axios from "axios";
-import UploadList from './uploadList';
-import Button from "../Button/button";
+import UploadList from "./uploadList";
+// import Button from "../Button/button";
+import Dragger from "./dragger";
 
 export type UploadFileStatus = "ready" | "uploading" | "success" | "error";
 export interface UploadFile {
@@ -22,13 +23,14 @@ export interface UploadProps {
   onSuccess?: (data: any, file: File) => void;
   onError?: (err: any, file: File) => void;
   onChange?: (file: File) => void;
-  onRemove?:(file:UploadFile) => void;
-  headers?: {[key:string]:any};
+  onRemove?: (file: UploadFile) => void;
+  headers?: { [key: string]: any };
   name?: string;
-  data?:  {[key:string]:any};
+  data?: { [key: string]: any };
   withCredentials?: boolean;
-  accept?:string;
+  accept?: string;
   multiple?: boolean;
+  drag?: boolean;
 }
 
 export const Upload: FC<UploadProps> = (props) => {
@@ -46,7 +48,9 @@ export const Upload: FC<UploadProps> = (props) => {
     data,
     withCredentials,
     accept,
-    multiple
+    multiple,
+    children,
+    drag,
   } = props;
   const fileInput = useRef<HTMLInputElement>(null);
   const [fileList, setFileList] = useState<UploadFile[]>(defaultFileList || []);
@@ -79,14 +83,14 @@ export const Upload: FC<UploadProps> = (props) => {
       fileInput.current.value = "";
     }
   };
-  const handleRemove = (file:UploadFile) => {
-      setFileList((prevList) => {
-        return prevList.filter(item => item.uid !== file.uid);
-      })
-      if(onRemove) {
-          onRemove(file)
-      }
-  }
+  const handleRemove = (file: UploadFile) => {
+    setFileList((prevList) => {
+      return prevList.filter((item) => item.uid !== file.uid);
+    });
+    if (onRemove) {
+      onRemove(file);
+    }
+  };
   const uploadFiles = (files: FileList) => {
     let postFiles = Array.from(files);
     postFiles.forEach((file) => {
@@ -114,15 +118,15 @@ export const Upload: FC<UploadProps> = (props) => {
       raw: file,
     };
     // setFileList([_file, ...fileList]);
-    setFileList(prevList => {
-      return [_file, ...prevList]
-    })
+    setFileList((prevList) => {
+      return [_file, ...prevList];
+    });
     const formData = new FormData();
-    formData.append(name || 'file', file);
-    if(data) {
-      Object.keys(data).forEach(key => {
-          formData.append(key,data[key]);
-      })
+    formData.append(name || "file", file);
+    if (data) {
+      Object.keys(data).forEach((key) => {
+        formData.append(key, data[key]);
+      });
     }
     axios
       .post(action, formData, {
@@ -164,23 +168,30 @@ export const Upload: FC<UploadProps> = (props) => {
   };
   return (
     <div className="viking-upload-component">
-      <Button btnType="primary" onClick={handleClick}>
+      {/* <Button btnType="primary" onClick={handleClick}>
         Upload File
-      </Button>
-      <input
-        type="file"
-        className="viking-file-input"
-        style={{ display: "none" }}
-        ref={fileInput}
-        onChange={handleFileChange}
-        accept={accept}
-        multiple={multiple}
-      />
-      <UploadList fileList={fileList} onRemove={handleRemove}/>
+      </Button> */}
+      <div
+        className="viking-upload-input"
+        style={{ display: "inline-block" }}
+        onClick={handleClick}
+      >
+        {drag ? <Dragger onFile={(files=> {uploadFiles(files)})}>{children}</Dragger> : children}
+        <input
+          type="file"
+          className="viking-file-input"
+          style={{ display: "none" }}
+          ref={fileInput}
+          onChange={handleFileChange}
+          accept={accept}
+          multiple={multiple}
+        />
+      </div>
+      <UploadList fileList={fileList} onRemove={handleRemove} />
     </div>
   );
 };
 Upload.defaultProps = {
-  name: "file"
-}
+  name: "file",
+};
 export default Upload;
